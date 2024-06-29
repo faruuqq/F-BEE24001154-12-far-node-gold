@@ -1,0 +1,28 @@
+CREATE TABLE items(
+  item_id SERIAL NOT NULL,
+  name varchar(255) NOT NULL,
+  price double precision NOT NULL,
+  stock integer NOT NULL,
+  PRIMARY KEY(item_id)
+);
+
+CREATE TABLE users(
+  user_id SERIAL NOT NULL,
+  name varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  password_hash varchar(255) NOT NULL,
+  session varchar(255),
+  is_active boolean NOT NULL DEFAULT true,
+  PRIMARY KEY(user_id)
+);
+
+CREATE TABLE orders(
+  order_id SERIAL NOT NULL,
+  user_id integer NOT NULL,
+  item_id integer NOT NULL,
+  status integer NOT NULL,
+  is_paid boolean NOT NULL DEFAULT false,
+  PRIMARY KEY(order_id),
+  CONSTRAINT fk_users_to_orders FOREIGN key(user_id) REFERENCES users(user_id),
+  CONSTRAINT fk_items_to_orders FOREIGN key(item_id) REFERENCES items(item_id)
+);

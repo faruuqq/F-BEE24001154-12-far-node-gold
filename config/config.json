@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "faruuq",
+    "password": null,
+    "database": "bingle_shop_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "faruuq",
+    "password": null,
+    "database": "bingle_shop_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "faruuq",
+    "password": null,
+    "database": "bingle_shop_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
