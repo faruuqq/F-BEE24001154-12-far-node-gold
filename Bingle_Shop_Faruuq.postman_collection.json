@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "94ce07c2-d2ae-451f-afbf-ac9fc3f2ce97",
+		"name": "Bingle Shop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18482740"
+	},
+	"item": [
+		{
+			"name": "Item",
+			"item": [
+				{
+					"name": "Get All Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/item/items",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"item",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/item/find?id=9c194350-1ac5-4871-8735-b501e7fa1024",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"item",
+								"find"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9c194350-1ac5-4871-8735-b501e7fa1024"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Tumbler\",\n    \"price\": 700000,\n    \"stock\": 8\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/item/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"item",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/item/delete/fda9dd1c-fba5-4ce8-a514-551f75e9c824",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"item",
+								"delete",
+								"fda9dd1c-fba5-4ce8-a514-551f75e9c824"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/user/delete/37518572-bc1e-402f-9811-2e2276f7588f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"delete",
+								"37518572-bc1e-402f-9811-2e2276f7588f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"faruuq4\",\n    \"email\": \"faruuq4@email.com\",\n    \"password\": \"006003\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();",
+									"if (response.data && response.data.session) {",
+									"    pm.collectionVariables.set(\"session\", response.data.session);",
+									"    console.log(\"Session ID\", pm.collectionVariables.get(\"session\"));",
+									"} else {",
+									"    pm.collectionVariables.set(\"session\", null);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"faruuq4@email.com\",\n    \"password\": \"006003\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();",
+									"if (response.status && response.status === \"Success\") {",
+									"    pm.collectionVariables.set(\"session\", null);",
+									"    console.log(\"Session ID\", pm.collectionVariables.get(\"session\"));",
+									"} else {",
+									"    pm.collectionVariables.set(\"session\", null);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"faruuq4@email.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "session",
+								"value": "{{session}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"item_id\": \"133f7e93-9602-43a3-a204-cda500ed39b2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/order",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Delete Order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/order/delete/d000b8aa-fadd-4b56-be59-b24b1c4af12f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"delete",
+								"d000b8aa-fadd-4b56-be59-b24b1c4af12f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/order/get-by-user?id=4ff826f6-b557-4439-8760-29a24823bf57",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"get-by-user"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4ff826f6-b557-4439-8760-29a24823bf57"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order Status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order_id\": \"c74d9810-1193-4a86-8b52-b7b137d62a60\",\n    \"status\": \"PAID\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/order/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"order",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "delete_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "session",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

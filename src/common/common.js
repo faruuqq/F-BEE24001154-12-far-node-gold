@@ -41,10 +41,7 @@ class Common {
     }
 
     generateUUID = () => {
-        // const uuid = new Sequelize();
-        const newUUID = uuidv4();
-        console.log("uuidv4", newUUID)
-        return newUUID
+        return uuidv4();
     }
 }
 
