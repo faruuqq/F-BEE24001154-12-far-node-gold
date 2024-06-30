@@ -63,6 +63,8 @@ app.delete('/item/delete/:id', itemHandler.delete);
 
 // Order API
 app.delete('/order/delete/:id', orderHandler.delete);
+app.get('/order/get-by-user', orderHandler.getByUserId);
+app.patch('/order/update', orderHandler.updateStatus);
 
 // Server
 app.listen(PORT, () => {

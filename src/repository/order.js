@@ -43,11 +43,38 @@ class OrderRepository {
         return foundOrder
     }
 
+    getByUserId = async (id) => {
+        const foundOrder = await Order.findAll({
+            where: { user_id: id },
+            include: [
+                {
+                    model: Item,
+                    required: true,
+                    as: 'item',
+                    attributes: ['name', 'price']
+                },
+                {
+                    model: User,
+                    required: true,
+                    as: 'user',
+                    attributes: ['name', 'email']
+                }
+            ],
+            attributes: ['order_id', 'status']
+        })
+        return foundOrder
+    }
+
     delete = async (id) => {
         const deleted = await Order.destroy({ 
             where: { order_id: id }
         });
         return deleted ? true : false
+    }
+
+    updateStatus = async (order, status) => {
+        order.status = status
+        await order.save()
     }
 }
 
