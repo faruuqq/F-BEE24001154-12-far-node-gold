@@ -1,4 +1,3 @@
-// const { Sequelize, DataTypes, Model } = require('sequelize');
 const { User } = require('../../models')
 
 class UserRepository {
@@ -36,6 +35,13 @@ class UserRepository {
     updateSession = async (user, session) => {
         user.session = session
         await user.save()
+    }
+
+    getBySession = async (session) => {
+        const foundUser = await User.findOne( {
+            where: { session: session }
+        })
+        return foundUser
     }
 }
 

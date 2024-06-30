@@ -1,7 +1,9 @@
 class UserService {
-    constructor(userRepository, common) {
+    constructor(userRepository, common, itemService, orderService) {
         this.userRepository = userRepository;
         this.common = common
+        this.itemService = itemService
+        this.orderService = orderService
     }
 
     getAll = async () => {
@@ -14,7 +16,7 @@ class UserService {
             });
             return this.common.responseToFE(true, 200, users, null);
         } catch (error) {
-            return this.common.responseToFE(false, 502, null, `${error}`)
+            return this.common.responseToFE(false, 502, null, `${error.message}`)
         }
     }
 
@@ -29,7 +31,7 @@ class UserService {
                 return this.common.responseToFE(false, 403, null, `${user.email} already existed`)
             }
         } catch (error) {
-            return this.common.responseToFE(false, 502, null, `${error}`)
+            return this.common.responseToFE(false, 502, null, `${error.message}`)
         }
     }
 
@@ -42,7 +44,7 @@ class UserService {
                 return this.common.responseToFE(false, 403, null, "No ID matched")
             }
         } catch (error) {
-            return this.common.responseToFE(false, 502, null, `${error}`)
+            return this.common.responseToFE(false, 502, null, `${error.message}`)
         }
     }
 
@@ -63,8 +65,52 @@ class UserService {
         }
     }
 
+    logout = async (email) => {
+        const foundUser = await this.#getByEmail(email)
+        if (foundUser) {
+            if (foundUser.session && foundUser.session !== '') {
+                await this.userRepository.updateSession(foundUser, null)
+                return this.common.responseToFE(true, 200, { message: "Success Log out" }, null)
+            } else {
+                return this.common.responseToFE(false, 403, null, `No session for ${email}`)
+            }
+        } else {
+            return this.common.responseToFE(false, 403, null, `No session for ${email}`)
+        }
+    }
+
+    makeOrder = async (session, itemId) => {
+        try {
+            const foundUser = await this.#getBySession(session)
+            if (foundUser)  {
+                const foundItem = await this.itemService.getByIdRaw(itemId)
+                if (foundItem) {
+                    const newOrder = {
+                        item_id: foundItem.item_id,
+                        user_id: foundUser.user_id,
+                        status: 'IN_CART'
+                    }
+                    const addedOrder = await this.orderService.add(newOrder)
+                    const completeOrder = await this.orderService.getById(addedOrder.order_id)
+                    return this.common.responseToFE(true, 200, completeOrder, null)
+                }
+    
+            } else {
+                throw new Error('Unauthorized')
+            }
+        } catch (error) {
+            return this.common.responseToFE(false, 401, null, `${error.message}`)
+        }
+        
+    }
+
     #getByEmail = async (email) => {
         const foundUser = await this.userRepository.getByEmail(email)
+        return foundUser
+    }
+
+    #getBySession = async (session) => {
+        const foundUser = await this.userRepository.getBySession(session)
         return foundUser
     }
 

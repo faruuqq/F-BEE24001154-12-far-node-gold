@@ -14,7 +14,7 @@ class ItemService {
             });
             return this.common.responseToFE(true, 200, items, null);
         } catch (error) {
-            return this.common.responseToFE(false, 502, null, `${error}`);
+            return this.common.responseToFE(false, 502, null, `${error.message}`);
         }
     }
 
@@ -23,7 +23,7 @@ class ItemService {
             const newItem = await this.itemRepository.add(item)
             return this.common.responseToFE(true, 200, newItem, null);
         } catch (error) {
-            return this.common.responseToFE(false, 502, null, `${error}`);
+            return this.common.responseToFE(false, 502, null, `${error.message}`);
         }
     }
 
@@ -33,8 +33,13 @@ class ItemService {
             const filterToFE = this.#filterToFE(foundItem)
             return this.common.responseToFE(true, 200, filterToFE, null);
         } catch (error) {
-            return this.common.responseToFE(false, 502, null, `${error}`)
+            return this.common.responseToFE(false, 502, null, `${error.message}`)
         }
+    }
+
+    getByIdRaw = async (id) => {
+        const foundItem = await this.itemRepository.getById(id)
+        return foundItem
     }
 
     delete = async (id) => {
@@ -46,7 +51,7 @@ class ItemService {
                 return this.common.responseToFE(false, 403, null, "No ID matched")
             }
         } catch (error) {
-            return this.common.responseToFE(false, 502, null, `${error}`)
+            return this.common.responseToFE(false, 502, null, `${error.message}`)
         }
     }
 

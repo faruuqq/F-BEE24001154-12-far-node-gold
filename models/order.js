@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Order.belongsTo(models.Item, { foreignKey: 'item_id', as: 'item' });
+      Order.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
     }
   }
   Order.init({
@@ -19,6 +20,22 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false
+    },
+    item_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'items',
+        key: 'item_id'
+      }
+    },
+    user_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'user_id'
+      }
     },
     status: {
       type: DataTypes.ENUM,
