@@ -17,7 +17,7 @@ class NodemailerRepository {
             subject: 'Testing Nodemailer',
             text: 'This is just a test using nodemailer. Do ignore...',
             html: "<b>Do ignore...</b>",
-          });
+        });
         return info
     }
 }
